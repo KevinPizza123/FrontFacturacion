@@ -1,0 +1,102 @@
+<section class="content">
+    <div class="container-fluid">
+        <div class="card">
+            <p-table #dt [value]="lstTipoServicio" [rows]="10" [paginator]="true" [loading]="loading"
+                     [globalFilterFields]="[
+                        'idTipoServicio',
+                        'nombreTipo',
+                        'detalleTipo',
+                        'fechaCreacionTipo',
+                        'usuarioCreacion'
+                     ]"
+                     responsiveLayout="scroll" [(selection)]="selectedTipoServicio"
+                     [rowHover]="true" dataKey="idTipoServicio"
+                     currentPageReportTemplate="Showing {first} to {last} of {totalRecords} entries" [showCurrentPageReport]="true">
+                <ng-template pTemplate="caption">
+                    <div class="flex justify-content-between flex-wrap">
+                        <div>
+                            <button type="button" pButton pRipple icon="pi pi-file-excel" (click)="exportExcel()"
+                                    class="p-button-sm p-button-outlined p-button-success p-mr-2 m-1" pTooltip="XLS"
+                                    tooltipPosition="bottom"></button>
+                            <button type="button" pButton pRipple icon="pi pi-file-pdf" (click)="exportPdf()"
+                                    class="p-button-sm p-button-outlined p-button-danger p-mr-2 m-1" pTooltip="PDF"
+                                    tooltipPosition="bottom"></button>
+                            <button pButton pRipple label="Delete" icon="pi pi-trash" class="p-button-danger p-button-sm m-1"
+                                    (click)="deleteSelectedTipoServicio()" pTooltip="Eliminar Seleccionados" tooltipPosition="right"
+                                    [disabled]="!selectedTipoServicio || !selectedTipoServicio.length"></button>
+                            <button pButton label="Clear" class="p-button-outlined p-button-sm m-1" icon="pi pi-filter-slash"
+                                    (click)="clear(dt)" pTooltip="Quitar Filtros" tooltipPosition="right"></button>
+                        </div>
+
+                        <label class="text-center">LISTADO DE TIPO SERVICIOS</label>
+                        <span class="p-input-icon-left ">
+              <i class="pi pi-search"></i>
+              <input pInputText type="text" class="p-inputtext-sm"
+                     (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Busqueda General" />
+            </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th style="width: 3rem">
+                            <p-tableHeaderCheckbox></p-tableHeaderCheckbox>
+                        </th>
+                        <th pSortableColumn="idTipoServicio">
+                            <div class="flex justify-content-between align-items-center">ID
+                                <p-sortIcon field="idTipoServicio"></p-sortIcon>
+                                <p-columnFilter type="text" field="idTipoServicio" display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="nombreTipo">
+                            <div class="flex justify-content-between align-items-center">NOMBRE
+                                <p-sortIcon field="nombreTipo"></p-sortIcon>
+                                <p-columnFilter type="text" field="nombreTipo" display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="detalleTipo">
+                            <div class="flex justify-content-between align-items-center">DETALLE
+                                <p-sortIcon field="detalleTipo"></p-sortIcon>
+                                <p-columnFilter type="text" field="detalleTipo" display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+                        <th pSortableColumn="usuarioCreacion">
+                            <div class="flex justify-content-between align-items-center">USUARIO
+                                <p-sortIcon field="usuarioCreacion"></p-sortIcon>
+                                <p-columnFilter type="text" field="usuarioCreacion" display="menu"></p-columnFilter>
+                            </div>
+                        </th>
+
+                        <th>Opciones</th>
+                    </tr>
+
+                </ng-template>
+                <ng-template pTemplate="body" let-item>
+                    <tr>
+                        <td>
+                            <p-tableCheckbox [value]="item"></p-tableCheckbox>
+                        </td>
+                        <td>{{item.idTipoServicio}}</td>
+                        <td>{{item.nombreTipo}}</td>
+                        <td>{{item.detalleTipo}}</td>
+                        <td>{{item.fechaCreacionTipo | date:'short'}}</td>
+                        <td>{{item.usuarioCreacion}}</td>
+
+                        <td>
+                            <button pButton pRipple icon="pi pi-pencil"
+                                    class="p-button-rounded p-button-warning p-button-text p-button-sm p-mr-2" (click)="editTipoServicio(item)"
+                                    pTooltip="Editar" tooltipPosition="left"></button>
+                            <button pButton pRipple icon="pi pi-trash"
+                                    class="p-button-rounded p-button-danger p-button-text p-button-sm" (click)="deleteTipoServicio(item)"
+                                    pTooltip="Eliminar" tooltipPosition="left"></button>
+                        </td>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="summary">
+                    <div class="p-d-flex p-ai-center p-jc-between">
+                        Registros Totales: {{lstTipoServicio ? lstTipoServicio.length : 0 }}.
+                    </div>
+                </ng-template>
+            </p-table>
+        </div>
+    </div>
+</section>
